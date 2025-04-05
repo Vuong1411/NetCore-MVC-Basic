@@ -132,8 +132,9 @@ namespace Classwork.Services
             {
                 existingProduct.Name = product.Name;
                 existingProduct.CategoryId = product.CategoryId;
-                existingProduct.Description = product.Description;
+                existingProduct.Stock = product.Stock;
                 existingProduct.Price = product.Price;
+                existingProduct.Description = product.Description;
                 existingProduct.ImageUrls = product.ImageUrls;
                 await _context.SaveChangesAsync();
                 return true;
