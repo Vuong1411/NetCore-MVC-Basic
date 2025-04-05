@@ -1,0 +1,98 @@
+﻿<!-- Sidebar wrapper start -->
+<nav class="sidebar-wrapper">
+
+	<!-- Sidebar brand starts -->
+	<div class="sidebar-brand">
+		<a href="/Admin" class="logo">
+			<img src="~/img/logo.png" alt="Melon Admin Dashboard" />
+		</a>
+	</div>
+	<!-- Sidebar brand starts -->
+	<!-- Sidebar menu starts -->
+	<div class="sidebar-menu">
+		<div class="sidebarMenuScroll">
+			<ul>
+				<li class="sidebar-dropdown @(ViewBag.ActivePage == "Dashboard" ? "active" : "") ">
+					<a href="#">
+						<i class="bi bi-house"></i>
+						<span class="menu-text">Dashboards</span>
+					</a>
+					<div class="sidebar-submenu">
+						<ul>
+							<li>
+								<a href="#" class="@(ViewBag.CurrentPage == "Dashboard" ? "current-page" : "") ">Sales</a>
+							</li>
+							<li>
+								<a href="#">eCommerce</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="sidebar-dropdown @(ViewBag.ActivePage == "Product" ? "active" : "") ">
+					<a href="#">
+						<i class="bi bi-handbag"></i>
+						<span class="menu-text">Product</span>
+					</a>
+					<div class="sidebar-submenu">
+						<ul>
+							<li>
+								<a asp-area="Admin" asp-controller="Product" class="@(ViewBag.CurrentPage == "ProductManagement" ? "current-page" : "")">Product Manegement</a>
+							</li>
+							<li>
+								<a asp-area="Admin" asp-controller="Category" class="@(ViewBag.CurrentPage == "CategoryManagement" ? "current-page" : "")">Category Manegement</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="sidebar-dropdown">
+					<a href="#">
+						<i class="bi bi-gem"></i>
+						<span class="menu-text">User</span>
+					</a>
+					<div class="sidebar-submenu">
+						<ul>
+							<li>
+								<a href="widgets.html">Widgets</a>
+							</li>
+							<li>
+								<a href="graph-widgets.html">Graph Widgets</a>
+							</li>
+						</ul>
+					</div>
+				</li>			
+
+				<li class="sidebar-dropdown">
+					<a href="#">
+						<i class="bi bi-x-diamond"></i>
+						<span class="menu-text">Authentication</span>
+					</a>
+					<div class="sidebar-submenu">
+						<ul>
+							<li>
+								<a href="#">Login</a>
+							</li>
+							<li>
+								<a href="#">Signup</a>
+							</li>
+							<li>
+								<a href="#">Error</a>
+							</li>
+							<li>
+								<a href="#">Maintenance</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<i class="bi bi-hand-index-thumb"></i>
+						<span class="menu-text">Link</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- Sidebar menu ends -->
+
+</nav>
+<!-- Sidebar wrapper end -->

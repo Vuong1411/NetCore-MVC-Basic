@@ -1,0 +1,26 @@
+﻿@model Category
+
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" data-bs-backdrop="false" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Cập nhật danh mục</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-area="Admin" asp-controller="Category" asp-action="Edit" id="edit-form" method="post">
+                    <input type="hidden" asp-for="CategoryId" id="edit-category-id" />
+                    <div class="was-validated">
+                        <label class="form-label">Tên danh mục <span class="text-red">*</span></label>
+                        <input asp-for="CategoryName" type="text" id="edit-category-name" class="form-control" placeholder="Nhập tên danh mục" required="">
+                        <div class="invalid-feedback">Vui lòng nhập tên danh mục !</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" form="edit-form" class="btn btn-success" data-bs-dismiss="modal">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>

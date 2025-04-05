@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ProductVM>
+@section Scripts {
+	<script src="~/js/custom/custom-datatable.js"></script>
+}
+@{
+	ViewBag.Title = "Danh sách sản phẩm";
+	ViewBag.ActivePage = "Product";
+	ViewBag.CurrentPage = "ProductManagement";
+}
+
+@if (TempData["Message"] != null)
+{
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		@TempData["Message"]
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+
+<div class="row">
+	<div class="col-sm-12 col-12">
+		<!-- Card start -->
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Quản lý sản phẩm</div>
+				<a class="btn btn-primary" href="/Admin/Product/Create">
+					Thêm sản phẩm
+				</a>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="custom-table" class="table custom-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Image</th>
+								<th>Category</th>
+								<th>Name</th>
+								<th>Price</th>
+								<th>Stock</th>
+								<th>Description</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var product in Model)
+							{
+								<tr>
+									<td>@product.Id</td>
+									<td>
+										<div class="media-box">
+											<img src="~/img/products/@product.ImageUrlList.FirstOrDefault()"
+												 class="media-avatar" alt="@product.Name" />
+										</div>
+									</td>
+									<td>
+										<span class="badge rounded-pill shade-green">
+											@product.CategoryName
+										</span>
+									</td>
+									<td>@product.Name</td>
+									<td>@product.Price</td>
+									<td>@product.Stock</td>
+									<td>@product.Description</td>
+									<td>
+										<div class="dropdown">
+											<button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+												<i class="bi bi-three-dots"></i>
+											</button>
+											<ul class="dropdown-menu">
+												<!-- Nút chỉnh sửa -->
+												<li>
+													<a class="dropdown-item text-warning" href="/Admin/Product/Edit/@product.Id">
+														<i class="bi bi-pencil-square"></i> Chỉnh sửa
+													</a>
+												</li>
+												<!-- Nút xóa -->
+												<li>
+													<form asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" method="post"
+														  onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+														<button type="submit" class="dropdown-item text-danger">
+															<i class="bi bi-trash"></i> Xóa
+														</button>
+													</form>
+												</li>
+											</ul>
+										</div>
+
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- Card end -->
+	</div>
+</div>
+
+

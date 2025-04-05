@@ -1,0 +1,21 @@
+﻿#dropzone-area {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống hàng khi vượt quá */
+    gap: 10px; /* Khoảng cách giữa các ảnh */
+}
+
+    #dropzone-area .dz-preview {
+        flex: 0 0 calc(20% - 8px); /* 20% cho 5 ảnh/hàng, trừ đi khoảng cách */
+        max-width: calc(20% - 8px); /* Giới hạn chiều rộng tối đa */
+    }
+
+        #dropzone-area .dz-preview .dz-image {
+            width: 100%;
+            height: auto;
+        }
+
+            #dropzone-area .dz-preview .dz-image img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }

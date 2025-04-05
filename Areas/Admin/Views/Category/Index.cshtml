@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CategoryVM>
+@section Scripts {
+    <script src="~/js/custom/custom-datatable.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".edit-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    const row = button.closest("tr");
+                    const categoryId = parseInt(row.querySelector("td:nth-child(1)").innerText.trim(), 10);
+                    const categoryName = row.querySelector("td:nth-child(2)").innerText.trim();
+
+                    document.getElementById("edit-category-id").value = categoryId;
+                    document.getElementById("edit-category-name").value = categoryName;
+                });
+            });
+        });
+    </script>
+}
+
+@{
+	ViewBag.Title = "Danh sách danh mục";
+	ViewBag.ActivePage = "Product";
+	ViewBag.CurrentPage = "CategoryManagement";
+    
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12 col-12">
+        <!-- Card start -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Quản lý danh mục</div>
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-modal">
+                    Thêm danh mục
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="custom-table" class="table custom-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Model)
+                            {
+                                <tr>
+                                    <td>@category.Id</td>
+                                    <td>@category.Name</td>
+                                    <td>@category.Quantity</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <!-- Nút chỉnh sửa -->
+                                                <li>
+                                                    <button class="btn dropdown-item text-warning edit-btn" data-bs-toggle="modal" data-bs-target="#edit-modal">
+                                                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                                                    </button>
+                                                </li>
+                                                <!-- Nút xóa -->
+                                                <li>
+                                                    <form asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" method="post"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+                                                        <button type="submit" class="dropdown-item text-danger">
+                                                            <i class="bi bi-trash"></i> Xóa
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Card end -->
+    </div>
+</div>
+
+<!-- Modal Thêm Danh Mục -->
+@await Html.PartialAsync("Create", new Category())
+
+<!-- Modal Cập Nhật -->
+@await Html.PartialAsync("Edit", new Category())
