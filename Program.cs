@@ -2,19 +2,33 @@ using Microsoft.EntityFrameworkCore;
 
 using Classwork.Models;
 using Classwork.Services;
+using Microsoft.AspNetCore.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<TechStoreContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("TechStore"));
 });
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<ImageService>();
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(option =>
+{
+    option.SignIn.RequireConfirmedEmail = false;
+})
+.AddDefaultUI()
+.AddEntityFrameworkStores<TechStoreContext>()
+.AddDefaultTokenProviders();
+ 
+builder.Services.AddRazorPages();
+
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 var app = builder.Build();
 
@@ -32,8 +46,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(
-    name: "admin",
+    name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(

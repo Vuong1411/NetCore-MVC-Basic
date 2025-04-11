@@ -4,16 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using Classwork.Models;
 using Classwork.ViewModels;
 using Classwork.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Classwork.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(ILogger<CategoryController> logger, CategoryService categoryService)
+        public CategoryController(ILogger<CategoryController> logger, ICategoryService categoryService)
         {
             _logger = logger;
             _categoryService = categoryService;

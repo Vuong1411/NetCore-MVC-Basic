@@ -10,7 +10,7 @@ namespace Classwork.Views.Shared.Components.ProductBox
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
 
-        public ProductBox(ILogger<ProductBox> logger, ProductService productService, CategoryService categoryService)
+        public ProductBox(ILogger<ProductBox> logger, IProductService productService, ICategoryService categoryService)
         {
             _logger = logger;
             _productService = productService;

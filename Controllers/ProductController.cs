@@ -12,7 +12,7 @@ namespace Classwork.Controllers
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
 
-        public ProductController(ILogger<ProductController> logger, ProductService productService, CategoryService categoryService)
+        public ProductController(ILogger<ProductController> logger, IProductService productService, ICategoryService categoryService)
         {
             _logger = logger;
             _productService = productService;

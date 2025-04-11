@@ -4,6 +4,13 @@
     ViewData["ActivePage"] = "Home";
 }
 
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert(@Html.Raw(Json.Serialize(TempData["Message"])));
+    </script>
+}
+
 <!-- Hero Start -->
 <div class="container-fluid py-5 mb-5 hero-header">
     <div class="container py-5">

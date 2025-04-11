@@ -7,9 +7,9 @@ namespace Classwork.Views.Shared.Components.CategoryMenu
 {
     public class CategoryMenu : ViewComponent
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryMenu(CategoryService categoryService)
+        public CategoryMenu(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }

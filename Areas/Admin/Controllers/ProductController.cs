@@ -6,10 +6,12 @@ using Classwork.Services;
 
 using Classwork.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Classwork.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;
@@ -17,7 +19,7 @@ namespace Classwork.Areas.Admin.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IImageService _imageService;
 
-        public ProductController(ILogger<ProductController> logger, ProductService productService, CategoryService categoryService, ImageService imageService)
+        public ProductController(ILogger<ProductController> logger, IProductService productService, ICategoryService categoryService, IImageService imageService)
         {
             _logger = logger;
             _productService = productService;

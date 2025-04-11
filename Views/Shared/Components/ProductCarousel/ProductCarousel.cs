@@ -11,7 +11,7 @@ namespace Classwork.Views.Shared.Components.ProductCarousel
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
 
-        public ProductCarousel(ILogger<ProductCarousel> logger, ProductService productService, CategoryService categoryService)
+        public ProductCarousel(ILogger<ProductCarousel> logger, IProductService productService, ICategoryService categoryService)
         {
             _logger = logger;
             _productService = productService;

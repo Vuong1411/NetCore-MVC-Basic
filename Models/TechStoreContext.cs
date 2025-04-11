@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Classwork.Models;
 
-public partial class TechStoreContext : DbContext
+public partial class TechStoreContext : IdentityDbContext<AppUser>
 {
     public TechStoreContext()
     {
     }
 
-    public TechStoreContext(DbContextOptions<TechStoreContext> options)
-        : base(options)
+    public TechStoreContext(DbContextOptions<TechStoreContext> options) : base(options)
     {
     }
 
@@ -27,10 +27,10 @@ public partial class TechStoreContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Cart>(entity =>
         {
             entity.HasKey(e => e.CartId).HasName("PK__Carts__51BCD7978D5F68F2");
