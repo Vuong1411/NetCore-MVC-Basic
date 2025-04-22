@@ -42,19 +42,26 @@ namespace Classwork.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Email")]
             [EmailAddress]
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "Mật khẩu")]
+            [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} ký tự và tối đa {1} ký tự.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                returnUrl = Url.Content("~/");
+                return;
+            }
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -62,7 +69,6 @@ namespace Classwork.Areas.Identity.Pages.Account
 
             returnUrl ??= Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -78,6 +84,18 @@ namespace Classwork.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                if (user != null)
+                {
+                    // Kiểm tra xem email đã được xác thực chưa
+                    if (!await _signInManager.UserManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty, "Bạn cần xác thực email trước khi đăng nhập.");
+                        return Page();
+                    }
+                }
+
+                // Đăng nhập người dùng
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -101,7 +119,20 @@ namespace Classwork.Areas.Identity.Pages.Account
                 }
             }
 
+            // Nếu có lỗi xác thực, hiển thị lại trang đăng nhập
             return Page();
         }
+
+        public IActionResult OnPostExternalLogin(string provider, string returnUrl = null)
+        {
+            // Xác định URL quay lại sau khi đăng nhập thành công
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            // Chuyển hướng đến nhà cung cấp xác thực (Google)
+            return new ChallengeResult(provider, properties);
+        }
+
+
     }
 }

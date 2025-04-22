@@ -1,0 +1,38 @@
+﻿@page
+@model ExternalLoginModel
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@{
+    ViewData["Title"] = $"Đăng ký với " + @Model.ProviderDisplayName;
+    Layout = "/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg" style="width: 28rem;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">@ViewData["Title"]</h2>
+            <p id="external-login-description" class="text-muted text-center">
+                Bạn đã xác thực thành công với <strong>@Model.ProviderDisplayName</strong>.
+                Vui lòng nhập địa chỉ email của bạn bên dưới và nhấp vào nút <strong>Đăng ký</strong> để hoàn tất.
+            </p>
+            <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3" role="alert"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Nhập email của bạn" />
+                    <label asp-for="Input.Email">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="w-100 btn btn-primary btn-lg text-light">Đăng ký</button>
+            </form>
+        </div>
+        <div class="card-footer py-3">
+            <div class="d-flex justify-content-between">
+                <a asp-page="./Login">Quay lại</a>
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Tạo tài khoản mới</a>
+            </div>
+        </div>
+    </div>
+</div>

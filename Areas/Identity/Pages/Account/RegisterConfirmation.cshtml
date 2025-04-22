@@ -1,0 +1,41 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Xác nhận đăng ký";
+    Layout = "/Views/Shared/_AuthLayout.cshtml";
+}
+
+@section Scripts {
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            alert('@TempData["Message"]');
+        </script>
+    }
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">@ViewData["Title"]</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.IsExternalLogin)
+            {
+                <div class="alert alert-info" role="alert">
+                    Bạn đã đăng nhập bằng Facebook hoặc Google.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success" role="alert">
+                    Vui lòng kiểm tra email của bạn để xác nhận tài khoản. Nếu bạn không nhận được email, hãy nhấn nút bên dưới để gửi lại.
+                </div>
+                <form method="post">
+                    <input type="hidden" name="Email" value="@Model.Email" />
+                    <button type="submit" class="btn btn-warning btn-sm">Gửi lại email xác nhận</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>

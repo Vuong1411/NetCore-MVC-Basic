@@ -1,0 +1,20 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Xác nhận email";
+    Layout = "/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0 text-center">@ViewData["Title"]</h3>
+        </div>
+        <div class="card-body text-center">
+            <p class="mb-4">
+                <partial name="_StatusMessage" model="Model.StatusMessage" />
+            </p>
+            <a asp-page="./Login" class="btn btn-primary btn-lg">Quay về đăng nhập</a>
+        </div>
+    </div>
+</div>

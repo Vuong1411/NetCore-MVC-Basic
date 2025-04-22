@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Classwork.Models;
 using Classwork.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Classwork.Utils.ConfigOptions;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,14 +18,33 @@ builder.Services.AddDbContext<TechStoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TechStore"));
 });
 
-builder.Services.AddIdentity<AppUser, IdentityRole>(option =>
+// Cấu hình Identity
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
-    option.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedEmail = true;
 })
 .AddDefaultUI()
 .AddEntityFrameworkStores<TechStoreContext>()
 .AddDefaultTokenProviders();
- 
+
+// Cấu hình xác thực bằng Google hoặc Facebook
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+    })
+    .AddFacebook(facebookOptions =>
+    {
+        facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"]!;
+        facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"]!;
+    });
+
+// Cấu hình dịch vụ Email
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSenderService>();
+
 builder.Services.AddRazorPages();
 
 
@@ -44,6 +66,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
