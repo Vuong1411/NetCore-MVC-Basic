@@ -6,6 +6,9 @@ Cần cài đặt các NuGet packages sau:
 ```
 Microsoft.AspNetCore.Identity.EntityFrameworkCore
 Microsoft.AspNetCore.Identity.UI
+MailKit (Nếu muốn xác thực bằng email)
+Microsoft.AspNetCore.Authentication.Facebook (Nếu muốn xác thực bằng facebook)
+Microsoft.AspNetCore.Authentication.Google (Nếu muốn xác thực bằng google)
 ```
 
 ## 2. 🗃️ Cấu hình DbContext
@@ -121,25 +124,19 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 ```
 
-## 7. 🔒 Bảo mật
+## 7. ⭐ Tính năng bổ sung
 
-1. 🚫 Không bao giờ commit các khóa bí mật (Client Secret, App Secret) trực tiếp vào source code
-2. 🔐 Sử dụng User Secrets hoặc biến môi trường cho môi trường development
-3. 🛡️ Sử dụng các giải pháp quản lý cấu hình an toàn cho môi trường production
-
-## 8. ⭐ Tính năng bổ sung
-
-### 8.1. ✉️ Yêu cầu xác nhận email
+### 7.1. ✉️ Yêu cầu xác nhận email
 ```csharp
 options.SignIn.RequireConfirmedEmail = true;
 ```
 
-### 8.2. ✅ Yêu cầu xác nhận tài khoản
+### 7.2. ✅ Yêu cầu xác nhận tài khoản
 ```csharp
 options.SignIn.RequireConfirmedAccount = true;
 ```
 
-## 9. ❗ Các lưu ý quan trọng
+## 8. ❗ Các lưu ý quan trọng
 
 1. 🔗 Đảm bảo đã cấu hình đúng connection string cho database
 2. 🔄 Thực hiện migration cho Identity tables
@@ -147,22 +144,7 @@ options.SignIn.RequireConfirmedAccount = true;
 4. ✅ Test kỹ chức năng xác thực và đăng nhập trước khi deploy
 5. 🔒 Đảm bảo sử dụng HTTPS cho các endpoints liên quan đến authentication
 
-## 10. 🐛 Debug và Logging
-
-Để debug các vấn đề liên quan đến authentication, thêm cấu hình logging:
-```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning",
-      "Microsoft.AspNetCore.Authentication": "Debug"
-    }
-  }
-}
-```
-
-## 11. 🔍 Checklist triển khai
+## 9. 🔍 Checklist triển khai
 
 - [ ] 📦 Đã cài đặt đầy đủ các packages
 - [ ] 🗃️ Đã sửa DbContext để kế thừa IdentityDbContext
